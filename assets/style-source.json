@@ -1,0 +1,21 @@
+{
+  "style_source": "anthropic-skills:opus-code-animation",
+  "standard": "references/huangbai-broll-standard.md",
+  "background_sha256": "cd10921f067dde9ad244ef2eafbc78a63b20eb13a021118d274ec616d036529d",
+  "accent": "#D4FF3A",
+  "accent_source": "同一Claude制作记录中实际深色口播辅助片段色板",
+  "framing_reference": "references/framing-and-layout.md",
+  "framing_parameters": "assets/framing.json",
+  "framing_status": "用户2026-10-21补充三种口播组合、正常横屏录制与中央安全区原则；文件中的具体比例为制作建议，非平台官方规范",
+  "template_status": "motion-starter.html只演示动作机制，不代表用户认可其示意UI为正式美术",
+  "default_output": {
+    "width": 2160,
+    "height": 3840,
+    "fps": 30,
+    "preview": [
+      1080,
+      1920
+    ]
+  },
+  "approved_date": "2026-10-21"
+}

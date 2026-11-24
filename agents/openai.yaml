@@ -1,0 +1,4 @@
+interface:
+  display_name: "黄白 Broll Maker"
+  short_description: "拆配画素材表，逐条制作并交付可上片的录屏、动画、演绎画面和对词预览。"
+  default_prompt: "用 $huangbai-broll-maker 按脚本拆配画素材表，并交付对应的独立录屏、动画和对词预览。"

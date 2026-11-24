@@ -1,0 +1,16 @@
+<title>素材生成对照表</title>
+<table>
+  <colgroup><col width="130"/><col width="420"/><col width="500"/></colgroup>
+  <thead><tr><th><p>阶段</p></th><th><p>内容</p></th><th><p>画面说明参考</p></th></tr></thead>
+  <tbody>
+    <tr>
+      <td rowspan="2" vertical-align="top"><p>{{阶段名称}}</p></td>
+      <td vertical-align="top"><p>{{第一半句；画面完全一致且连续时，可合并相邻半句}}<br/></p><p>{{第二半句，起点与右侧第二条对齐}}</p></td>
+      <td vertical-align="top"><p>{{第一半句对应的说明；此例假定占两行}}</p><p>{{第二半句对应的连续动作说明}}</p></td>
+    </tr>
+    <tr>
+      <td vertical-align="top"><p>{{切到新画面后的第一半句}}</p><p>{{下一半句}}</p></td>
+      <td vertical-align="top"><p>{{新画面的构图、主体及对应动作}}</p><p>{{继续动作；按实际折行给较短一侧补空白行}}</p></td>
+    </tr>
+  </tbody>
+</table>

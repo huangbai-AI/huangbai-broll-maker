@@ -1,0 +1,15 @@
+{
+  "purpose": "竖屏口播B-roll构图起点，非平台官方规范；按实际发布遮挡调整",
+  "referenceCanvas": {"width": 1080, "height": 1920},
+  "normalisedSafeInsets": {"left": 0.10, "right": 0.14, "top": 0.10, "bottom": 0.20},
+  "safeInsetsApplyTo": "全部三种组合的画布外缘",
+  "screenFocusBounds": {"left": 0.20, "right": 0.80, "top": 0.25, "bottom": 0.70},
+  "screenFocusBoundsApplyTo": "presentation=screen的整幅纯录屏或辅助画面；split组合使用上下半区自己的关注锚点",
+  "presentations": {
+    "talking-head": {"subject": "本人反应、判断、情绪", "screenRequired": false},
+    "screen": {"subject": "操作或结果", "focusAnchor": [0.50, 0.47], "optionalPortrait": {"shape": "circle", "center": [0.73, 0.70], "diameterAsWidth": 0.18}},
+    "split": {"subject": "操作与本人都重要", "splitY": 0.50, "top": "界面", "bottom": "本人", "screenFocusAnchor": [0.50, 0.26], "portraitFaceAnchor": [0.50, 0.66]}
+  },
+  "capture": {"desktopLayout": "真实横屏桌面窗口或其实际局部", "changeViewportToPortraitForPortraitOutput": false, "preserveAspectRatio": true, "preferredRecorder": "Screen Studio"},
+  "requiredTextVisibleHeightAt1080": {"suggestedMin": 44, "suggestedMax": 60, "meaning": "重点查询或结果字的可见字高起点；手机尺寸实际可读优先"}
+}

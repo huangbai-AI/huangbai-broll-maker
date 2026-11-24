@@ -1,0 +1,34 @@
+<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Broll-maker · 黄白点阵动效模板（示意素材）</title><link rel="stylesheet" href="style.css"><style>html,body{height:100%;overflow:hidden}canvas{display:block;width:100%;height:100%;object-fit:contain;background:#0b0b0c}</style><canvas id="canvas" width="2160" height="3840"></canvas><script>
+const C={bg:'#0b0b0c',surface:'#151517',fg:'#f2f2f2',muted:'#8e8e93',lime:'#d4ff3a'};
+const W=2160,H=3840,canvas=document.querySelector('canvas'),ctx=canvas.getContext('2d');
+const clamp=x=>Math.min(1,Math.max(0,x)),p=(t,a,b)=>clamp((t-a)/(b-a)),out=x=>1-Math.pow(1-clamp(x),3),ease=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2;
+const mode=new URLSearchParams(location.search).get('demo')==='upload'?'upload':'compare';
+const bg=new Image(),sample=new Image();bg.src='huangbai-dot-grid.png';
+// 自包含示意素材；正式制作请换成同一对象的获准原图，不冒充真实产品结果。
+const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000"><rect width="1600" height="1000" fill="#1b1b1e"/><rect x="70" y="70" width="1460" height="860" rx="26" fill="#242428"/><path d="M70 180H1530" stroke="#444449" stroke-width="3"/><circle cx="124" cy="124" r="11" fill="#8e8e93"/><circle cx="164" cy="124" r="11" fill="#8e8e93"/><circle cx="204" cy="124" r="11" fill="#d4ff3a"/><rect x="118" y="228" width="750" height="650" rx="20" fill="#121214"/><path d="M282 640L475 328L690 640L475 766Z" fill="#d4ff3a"/><path d="M475 328V766L690 640Z" fill="#8faf1e"/><path d="M282 640H690" stroke="#f2f2f2" stroke-width="5"/><circle cx="475" cy="585" r="214" fill="none" stroke="#f2f2f2" stroke-opacity=".13" stroke-width="3"/><rect x="930" y="256" width="420" height="30" rx="15" fill="#f2f2f2"/><rect x="930" y="327" width="330" height="16" rx="8" fill="#8e8e93"/><rect x="930" y="370" width="396" height="16" rx="8" fill="#8e8e93"/><rect x="930" y="459" width="480" height="180" rx="22" fill="#323236"/><path d="M980 585L1050 544L1130 568L1230 508L1360 487" fill="none" stroke="#d4ff3a" stroke-width="10" stroke-linecap="round"/><rect x="930" y="714" width="205" height="82" rx="20" fill="#d4ff3a"/><rect x="1166" y="714" width="242" height="82" rx="20" fill="#39393f"/></svg>`;
+sample.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);
+function rounded(x,y,w,h,r,fill,stroke){ctx.beginPath();ctx.roundRect(x,y,w,h,r);if(fill){ctx.fillStyle=fill;ctx.fill()}if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=3;ctx.stroke()}}
+function imageIn(x,y,w,h,filter='none'){ctx.save();rounded(x,y,w,h,24);ctx.clip();ctx.filter=filter;ctx.drawImage(sample,x,y,w,h);ctx.restore()}
+function corners(x,y,w,h,color){ctx.strokeStyle=color;ctx.lineWidth=8;const L=80;ctx.beginPath();for(const [a,b,sx,sy] of [[x,y,1,1],[x+w,y,-1,1],[x,y+h,1,-1],[x+w,y+h,-1,-1]]){ctx.moveTo(a,b+sy*L);ctx.lineTo(a,b);ctx.lineTo(a+sx*L,b)}ctx.stroke()}
+function cursor(x,y,held=false){ctx.save();ctx.translate(x,y);ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(0,100);ctx.lineTo(27,76);ctx.lineTo(47,119);ctx.lineTo(66,110);ctx.lineTo(45,68);ctx.lineTo(84,65);ctx.closePath();ctx.fillStyle=C.fg;ctx.fill();ctx.strokeStyle='#09090a';ctx.lineWidth=5;ctx.stroke();if(held){ctx.beginPath();ctx.arc(0,0,65,0,Math.PI*2);ctx.strokeStyle=C.lime;ctx.lineWidth=4;ctx.stroke()}ctx.restore()}
+function background(){ctx.clearRect(0,0,W,H);ctx.fillStyle=C.bg;ctx.fillRect(0,0,W,H);if(bg.complete&&bg.naturalWidth)ctx.drawImage(bg,0,0,W,H)}
+function compare(t){const x=300,y=1260,w=1540,h=w/1.6;const entry=out(p(t,.1,.7));ctx.save();ctx.globalAlpha=entry;ctx.translate(0,(1-entry)*35);imageIn(x,y,w,h,'grayscale(1) brightness(.62)');const k=ease(p(t,1.25,5.5));if(k>0){ctx.save();ctx.beginPath();ctx.rect(x,y,w*k,h);ctx.clip();imageIn(x,y,w,h);ctx.restore()}
+ if(t>=1.25&&t<5.65){const sx=x+w*k;ctx.save();ctx.strokeStyle=C.lime;ctx.lineWidth=8;ctx.shadowColor=C.lime;ctx.shadowBlur=28;ctx.beginPath();ctx.moveTo(sx,y-36);ctx.lineTo(sx,y+h+36);ctx.stroke();ctx.restore()};ctx.restore()}
+// 动作机制示意，不是正式美术或真实网站。重点边界按 framing.json 的安全区起点留余量。
+const S={x:300,y:890,w:1540,h:962.5},D={x:420,y:2050,w:1320,h:830},RELEASE=4.2,LOAD=RELEASE+1/30;
+function upload(t){const lifted=t>=1.7,released=t>=RELEASE,handed=t>=LOAD,loaded=t>=5.25;ctx.save();
+ rounded(145,500,1870,2700,32,C.surface,'#333337');ctx.font='34px "PingFang SC",sans-serif';ctx.fillStyle=C.muted;ctx.fillText('示意页面',235,596);
+ rounded(D.x,D.y,D.w,D.h,30,'#111113','#55555c');ctx.font='42px "PingFang SC",sans-serif';ctx.fillStyle=C.muted;ctx.fillText('图片',D.x+48,D.y+78);
+ // 第一帧已压暗；截取的原位置保持明亮，提起后背景蒙版自然退出。
+ const shade=.84*(1-ease(p(t,1.7,3.55)));ctx.fillStyle=`rgba(0,0,0,${shade})`;ctx.fillRect(0,0,W,H);
+ if(!lifted)imageIn(S.x,S.y,S.w,S.h);
+ if(t<1.7){const inset=40*(1-out(p(t,.2,1.15)));corners(S.x-inset,S.y-inset,S.w+2*inset,S.h+2*inset,t>=1.2?C.fg:C.lime);const flash=Math.max(0,1-Math.abs(t-1.27)/.075);if(flash){ctx.fillStyle=`rgba(255,255,255,${flash*.8})`;ctx.fillRect(S.x,S.y,S.w,S.h)}}
+ let loc;if(lifted&&!handed){const q=ease(p(t,1.7,RELEASE));const end={x:D.x+170,y:D.y+180,w:980,h:612.5};loc={x:S.x+(end.x-S.x)*q+110*Math.sin(q*Math.PI),y:S.y+(end.y-S.y)*q,w:S.w+(end.w-S.w)*q,h:S.h+(end.h-S.h)*q};imageIn(loc.x,loc.y,loc.w,loc.h);cursor(loc.x+loc.w*.74,loc.y+loc.h*.72,!released)}
+ if(handed&&!loaded){ctx.save();ctx.globalAlpha=.60;imageIn(D.x+170,D.y+180,980,612.5);ctx.restore();ctx.save();ctx.translate(D.x+D.w/2,D.y+D.h/2);ctx.rotate((t-RELEASE)*4);ctx.strokeStyle=C.lime;ctx.lineWidth=9;ctx.beginPath();ctx.arc(0,0,55,0,Math.PI*1.5);ctx.stroke();ctx.restore();cursor(D.x+170+980*.74,D.y+180+612.5*.72)}
+ if(loaded){imageIn(D.x+170,D.y+180,980,612.5);ctx.fillStyle=C.lime;ctx.beginPath();ctx.arc(D.x+D.w-90,D.y+80,32,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#101012';ctx.lineWidth=8;ctx.beginPath();ctx.moveTo(D.x+D.w-105,D.y+80);ctx.lineTo(D.x+D.w-94,D.y+91);ctx.lineTo(D.x+D.w-74,D.y+68);ctx.stroke()}
+ if(!lifted)cursor(S.x+S.w*.74,S.y+S.h*.72);ctx.restore()}
+window.renderAt=function(t){background();if(!sample.complete||!sample.naturalWidth)return;mode==='upload'?upload(t):compare(t)};
+window.motionSpec={mode,width:W,height:H,duration:8,fps:30,release:RELEASE,loadStart:LOAD,loaded:5.25,scanStart:1.25,scanEnd:5.5,sample:'illustration-not-real-website',background:'opus-code-animation original asset',accent:C.lime};
+window.__ready=Promise.all([bg.decode(),sample.decode(),document.fonts.ready]).then(()=>{window.renderAt(0);return true});
+window.previewPlaying=true;let start=performance.now();window.restartPreview=()=>{start=performance.now();window.previewPlaying=true};function tick(now){if(window.previewPlaying!==false)window.renderAt(Math.min(8,(now-start)/1000));requestAnimationFrame(tick)}window.__ready.then(()=>{start=performance.now();requestAnimationFrame(tick)});
+</script></html>
